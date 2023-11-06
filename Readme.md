@@ -14,7 +14,7 @@ An example could be
 	list_def_funcs(int)	// (in .c file)
 ```
 
-which would create the struct `int_list`, and the functions `int_list_init`, `int_list_push`,
+which would create the struct `int_list`, and the functions `int_list_init`, `int_list_append`,
 `int_list_close`, etc.
                                                                                                               
 Unless using `typedef`, these macros should not be called with pointers as, for example,
@@ -32,17 +32,17 @@ use the functions provided instead.
                                                                                                               
 The functions (with `<name>_list` changed to `list`):
                                                                                                               
-- `list_init`				Initialize a list.
-- `list_push`				Add value to the end of a list.
-- `list_remove`				Remove value at index from list.
-- `list_remove_no_preserve`	 Same as `list_remove`, but don't guarantee preserving order (faster with dynamic-array).
-- `list_length`				Get the number of elements in the list.
-- `list_to_array`			Convert the list to an array.
-- `list_comp`				Compare two lists.
-- `get_list_iterator`		Get value to iterate over the list.
-- `list_get`				Iterate over a list with iterator.
-- `list_get_index`          Get value at specified index.
-- `list_close`				Free allocated memory associated with the list.
+- `list_init`				        Initialize a list.
+- `list_append`				        Add value to the end of a list.
+- `list_get_index`                  Get value at specified index.
+- `list_remove_index`				Remove value at index from list.
+- `list_remove_index_no_preserve`	Same as `list_remove_index`, but don't guarantee preserving order (faster with dynamic-array).
+- `list_length`				        Get the number of elements in the list.
+- `list_to_array`			        Convert the list to an array.
+- `list_comp`				        Compare two lists.
+- `get_list_iterator`		        Get value to iterate over the list.
+- `list_get`                        Iterate over a list with iterator.
+- `list_close`                      Free allocated memory associated with the list.
                                                                                                                
 See further documentation of each function in the header file.
 

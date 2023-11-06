@@ -60,24 +60,24 @@ short name##_list_init(name##_list *list);								\
 void name##_list_close(name##_list *list, void(*free_value)(type));					\
      													\
 													\
-/* list_push - Adds value to the end of the list, returning 0 on success and non-zero
+/* list_append - Adds value to the end of the list, returning 0 on success and non-zero
  * value on memory failure.
  *
  * If memory failure occures, the list is not freed and is unmodified. */				\
-short name##_list_push(name##_list *list, type value);							\
+short name##_list_append(name##_list *list, type value);						\
 													\
 													\
-/* list_remove - Remove value at index, and return it. 
+/* list_remove_index - Remove value at index, and return it. 
  *
  * index is expected to be valid (the implementation doesn't neccessarily check). */			\
-type name##_list_remove(name##_list *list, size_t index);						\
+type name##_list_remove_index(name##_list *list, size_t index);						\
 													\
 													\
-/* list_remove_no_preserve - Remove value from list, but doesn't guarantee
+/* list_remove_index_no_preserve - Remove value from list, but doesn't guarantee
  * to preservation of the original order of the list.
  *
  * This allows the implementation under dynamic array to be O(1). */					\
-type name##_list_remove_no_preserve(name##_list *list, size_t index);					\
+type name##_list_remove_index_no_preserve(name##_list *list, size_t index);				\
 													\
 													\
 /* Return the number of elements in the list. */							\
@@ -155,7 +155,7 @@ short name##_list_init(struct name##_list *list)							\
 	return 0;											\
 }													\
 													\
-short name##_list_push(struct name##_list *list, type value) 						\
+short name##_list_append(struct name##_list *list, type value) 						\
 {													\
 	type *tmp;											\
 													\
@@ -244,7 +244,7 @@ int name##_list_comp(struct name##_list *list1, struct name##_list *list2,				\
 	return (pval2 == list2->p_buf) ? 0 : -1;							\
 }													\
 													\
-type name##_list_remove(name##_list *list, size_t index)						\
+type name##_list_remove_index(name##_list *list, size_t index)						\
 {													\
 	type *p = list->buf + index;									\
 	type removed = *p;										\
@@ -257,7 +257,7 @@ type name##_list_remove(name##_list *list, size_t index)						\
 	return removed;											\
 }													\
 													\
-type name##_list_remove_no_preserve(name##_list *list, size_t index)					\
+type name##_list_remove_index_no_preserve(name##_list *list, size_t index)					\
 {													\
 	type removed = list->buf[index];								\
 	list->buf[index] = *--list->p_buf;								\
