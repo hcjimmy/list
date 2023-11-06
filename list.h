@@ -40,6 +40,7 @@ typedef struct name##_list_iterator {									\
 	type *pval;											\
 } name##_list_iterator;											\
 													\
+													\
 /* list_init - initialize list.
  *
  * Must be called on list before usage of the other functions.
@@ -54,20 +55,25 @@ typedef struct name##_list_iterator {									\
  */													\
 short name##_list_init(name##_list *list);								\
 													\
+													\
+/* list_close - Free all data associated with the list.
+ *
+ * free_value should free value of type, or be NULL if freeing it is not desired. */			\
+void name##_list_close(name##_list *list, void(*free_value)(type));					\
+     													\
+													\
 /* list_push - Adds value to the end of the list, returning 0 on success and non-zero
  * value on memory failure.
  *
  * If memory failure occures, the list is not freed and is unmodified. */				\
 short name##_list_push(name##_list *list, type value);							\
 													\
-/* list_close - Free all data associated with the list.
- * free_value should free value of type, or be NULL if freeing it is not desired. */			\
-void name##_list_close(name##_list *list, void(*free_value)(type));					\
-     													\
+													\
 /* list_remove - Remove value at index, and return it. 
  *
  * index is expected to be valid (the implementation doesn't neccessarily check). */			\
 type name##_list_remove(name##_list *list, size_t index);						\
+													\
 													\
 /* list_remove_no_preserve - Remove value from list, but doesn't guarantee
  * to preservation of the original order of the list.
@@ -75,8 +81,10 @@ type name##_list_remove(name##_list *list, size_t index);						\
  * This allows the implementation under dynamic array to be O(1). */					\
 type name##_list_remove_no_preserve(name##_list *list, size_t index);					\
 													\
+													\
 /* Return the number of elements in the list. */							\
 size_t name##_list_length(const name##_list *list);							\
+													\
 													\
 /* list_to_array - Convert the list to array.
  *
@@ -87,6 +95,7 @@ size_t name##_list_length(const name##_list *list);							\
  * 	The list should must not be accessed or closed, and the returned array must be freed instead.
  */													\
 type* name##_list_to_array(name##_list *list);								\
+													\
 													\
 /* list_comp - Compare two lists.
  *
@@ -99,6 +108,7 @@ type* name##_list_to_array(name##_list *list);								\
 int name##_list_comp(name##_list *list1, name##_list *list2,						\
 		int(*comp)(type val1, type val2));							\
 													\
+													\
 /* get_list_iterator - Return an iterator to the list "pointing" at start of list.
  *
  * The iterator may be used with function list_get to go over the list in sequential order.
@@ -106,6 +116,7 @@ int name##_list_comp(name##_list *list1, name##_list *list2,						\
  * Note: "Pointing at start" means the next call to list_get will give the first value in the list.
  */													\
 name##_list_iterator get_##name##_list_iterator(const name##_list *list);				\
+													\
 													\
 /* list_get - Get the next value in the list, indicated by iterator.
  *
@@ -122,6 +133,7 @@ name##_list_iterator get_##name##_list_iterator(const name##_list *list);				\
  */													\
 short name##_list_get(name##_list_iterator *iterator, const name##_list *list, type *next);		\
 													\
+													\
 /* list_get_index - Get value at specified index (assumed to be a valid index).
  *
  * Note: under a linked list implementation (if it's implemented in the future),
@@ -129,6 +141,7 @@ short name##_list_get(name##_list_iterator *iterator, const name##_list *list, t
  * or convert the list to an array.
  */										\
 type name##_list_get_index(name##_list *list, size_t index);
+
 
 /* -- Define the implementation -- */
 #define list_def_funcs_named(type, name)								\
