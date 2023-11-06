@@ -22,11 +22,11 @@
 #define INIT_LEN 8
 #define REALLOC_MULT 1.5
 
-#define list_def_proto(type) list_def_proto_named(type, type)
-#define list_def_funcs(type) list_def_funcs_named(type, type)
+#define list_def_proto(type) named_list_def_proto(type, type)
+#define list_def_funcs(type) named_list_def_funcs(type, type)
 
 /* -- Define the structs and function protypes -- */
-#define list_def_proto_named(type, name)								\
+#define  named_list_def_proto(type, name)								\
 													\
 /* To contain the list. */										\
 typedef struct name##_list {										\
@@ -39,7 +39,6 @@ typedef struct name##_list {										\
 typedef struct name##_list_iterator {									\
 	type *pval;											\
 } name##_list_iterator;											\
-													\
 													\
 /* list_init - initialize list.
  *
@@ -57,7 +56,6 @@ short name##_list_init(name##_list *list);								\
 													\
 													\
 /* list_close - Free all data associated with the list.
- *
  * free_value should free value of type, or be NULL if freeing it is not desired. */			\
 void name##_list_close(name##_list *list, void(*free_value)(type));					\
      													\
@@ -144,7 +142,7 @@ type name##_list_get_index(name##_list *list, size_t index);
 
 
 /* -- Define the implementation -- */
-#define list_def_funcs_named(type, name)								\
+#define named_list_def_funcs(type, name)								\
 													\
 short name##_list_init(struct name##_list *list)							\
 {													\

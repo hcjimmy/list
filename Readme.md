@@ -20,11 +20,11 @@ which would create the struct `int_list`, and the functions `int_list_init`, `in
 Unless using `typedef`, these macros should not be called with pointers as, for example,
 calling `list_def_proto(int*)` would attempt to erroneously create struct `int*_list`.
                                                                                                               
-Alternatively, `list_def_proto_named` and `list_def_funcs_named` can be used to allow the name and
+Alternatively, `named_list_def_proto` and `named_list_def_funcs` can be used to allow the name and
 type to be different, allowing us to work with pointers, or otherwise making our life more
 convenient:
 
-E.g. `list_def_proto_named(char*, string)` would define a list of type char pointers named
+E.g. `named_list_def_proto(char*, string)` would define a list of type char pointers named
 `string_list`, and the appropriate prototypes.
                                                                                                               
 Note: it is unrecommended to access the struct directly, as the implementation may change, but to
