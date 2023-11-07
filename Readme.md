@@ -1,6 +1,6 @@
 # List - Generic-like list in c.
 
-This project provides macros for generating a struct to contain a list of given type and work with it dynamically. Currently there's only an implementation under a dynamic array, but other implementations may be added later.
+This project provides macros for generating a struct to contain a list of given type and functions to work with it dynamically. Currently there's only an implementation of a dynamic array, but other implementations may be added later.
 
 ## Usage
                                            

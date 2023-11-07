@@ -43,6 +43,7 @@ typedef struct name##_list_iterator {									\
 /* list_init - initialize list.
  *
  * Must be called on list before usage of the other functions.
+ * Must be followed by list_close call on success.
  *
  * Return a non-zero value if memory allocation error occures, otherwise 0.
  *
@@ -55,17 +56,21 @@ typedef struct name##_list_iterator {									\
 short name##_list_init(name##_list *list);								\
 													\
 													\
-/* list_close - Free all data associated with the list.
- * free_value should free value of type, or be NULL if freeing it is not desired. */			\
-void name##_list_close(name##_list *list, void(*free_value)(type));					\
-     													\
-													\
 /* list_append - Adds value to the end of the list, returning 0 on success and non-zero
  * value on memory failure.
  *
  * If memory failure occures, the list is not freed and is unmodified. */				\
 short name##_list_append(name##_list *list, type value);						\
 													\
+													\
+/* list_close - Free all data associated with the list.
+ * free_value should free value of type, or be NULL if freeing it is not desired. */			\
+void name##_list_close(name##_list *list, void(*free_value)(type));					\
+													\
+													\
+/* list_get_index - Get value at specified index (assumed to be a valid index). */			\
+type name##_list_get_index(name##_list *list, size_t index);						\
+     													\
 													\
 /* list_remove_index - Remove value at index, and return it. 
  *
@@ -90,7 +95,7 @@ size_t name##_list_length(const name##_list *list);							\
  * 	NULL is returned and the list is unmodified.
  *
  * On success:
- * 	The list should must not be accessed or closed, and the returned array must be freed instead.
+ * 	The list must not be accessed or closed, and the returned array must be freed instead.
  */													\
 type* name##_list_to_array(name##_list *list);								\
 													\
@@ -101,7 +106,7 @@ type* name##_list_to_array(name##_list *list);								\
  *
  * If both lists equal: 0 is returned.
  * If different values are found in the list: the result of comp on the first different values is returned.
- * If the lists are of differing length, but otherwise equal: if list1 is shorter -1, if list2 is shorter 1.
+ * If the lists are of differing length, but otherwise equal: if list1 is shorter -1, if list2 is shorter +1.
  */													\
 int name##_list_comp(name##_list *list1, name##_list *list2,						\
 		int(*comp)(type val1, type val2));							\
@@ -119,7 +124,7 @@ name##_list_iterator get_##name##_list_iterator(const name##_list *list);				\
 /* list_get - Get the next value in the list, indicated by iterator.
  *
  * If reached the end of the list:
- * 	A non-zero value is returned, iterator is unmodified.
+ * 	A non-zero value is returned, *next is unmodified.
  *
  * Otherwise:
  * 	0 is returned, *next is set to the next value in the list, and iterator is set to
@@ -129,16 +134,7 @@ name##_list_iterator get_##name##_list_iterator(const name##_list *list);				\
  * 	After the end is reached it is legal to call this function again, unless the list is modified
  * 	it should return the same value.
  */													\
-short name##_list_get(name##_list_iterator *iterator, const name##_list *list, type *next);		\
-													\
-													\
-/* list_get_index - Get value at specified index (assumed to be a valid index).
- *
- * Note: under a linked list implementation (if it's implemented in the future),
- * this would be quite slow. If working sequentially, it might be preferable to use list_get,
- * or convert the list to an array.
- */										\
-type name##_list_get_index(name##_list *list, size_t index);
+short name##_list_get(name##_list_iterator *iterator, const name##_list *list, type *next);
 
 
 /* -- Define the implementation -- */
