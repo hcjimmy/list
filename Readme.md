@@ -1,6 +1,6 @@
 # List - Generic-like list in c.
 
-This project provides macros for generating a struct to contain a list of given type and functions to work with it dynamically. Currently there's only an implementation of a dynamic array, but other implementations may be added later.
+This project provides macros for generating a struct to contain a list of a given type and functions to work with it dynamically. Currently there's only an implementation of a dynamic array, but other implementations may be added later.
 
 ## Usage
 
@@ -35,8 +35,8 @@ The functions (with `<name>_list` changed to `list`):
 - `list_init`				        Initialize a list.
 - `list_append`				        Add value to the end of a list.
 - `list_get_index`                  Get value at specified index.
-- `list_remove_index`				Remove value at index from list.
-- `list_remove_index_no_preserve`	Same as `list_remove_index`, but don't guarantee preserving order (faster with dynamic-array).
+- `list_pop_index`				    Remove value at specific index and return it.
+- `list_pop_index_no_preserve`      Same as `list_pop_index`, but don't guarantee preserving order (faster with dynamic-array).
 - `list_length`				        Get the number of elements in the list.
 - `list_to_array`			        Convert the list to an array.
 - `list_comp`				        Compare two lists.

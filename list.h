@@ -72,17 +72,17 @@ void name##_list_close(name##_list *list, void(*free_value)(type));					\
 type name##_list_get_index(name##_list *list, size_t index);						\
      													\
 													\
-/* list_remove_index - Remove value at index, and return it. 
+/* list_pop_index - Remove value at index, and return it. 
  *
  * index is expected to be valid (the implementation doesn't neccessarily check). */			\
-type name##_list_remove_index(name##_list *list, size_t index);						\
+type name##_list_pop_index(name##_list *list, size_t index);						\
 													\
 													\
-/* list_remove_index_no_preserve - Remove value from list, but doesn't guarantee
+/* list_pop_index_no_preserve - Remove value from list, but doesn't guarantee
  * to preservation of the original order of the list.
  *
  * This allows the implementation under dynamic array to be O(1). */					\
-type name##_list_remove_index_no_preserve(name##_list *list, size_t index);				\
+type name##_list_pop_index_no_preserve(name##_list *list, size_t index);				\
 													\
 													\
 /* Return the number of elements in the list. */							\
@@ -240,7 +240,7 @@ int name##_list_comp(struct name##_list *list1, struct name##_list *list2,				\
 	return (pval2 == list2->p_buf) ? 0 : -1;							\
 }													\
 													\
-type name##_list_remove_index(name##_list *list, size_t index)						\
+type name##_list_pop_index(name##_list *list, size_t index)						\
 {													\
 	type *p = list->buf + index;									\
 	type removed = *p;										\
@@ -253,7 +253,7 @@ type name##_list_remove_index(name##_list *list, size_t index)						\
 	return removed;											\
 }													\
 													\
-type name##_list_remove_index_no_preserve(name##_list *list, size_t index)					\
+type name##_list_pop_index_no_preserve(name##_list *list, size_t index)					\
 {													\
 	type removed = list->buf[index];								\
 	list->buf[index] = *--list->p_buf;								\
