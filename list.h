@@ -36,9 +36,9 @@ typedef struct name##_list {										\
 } name##_list;												\
 													\
 /* Type to go over the list. */										\
-typedef struct name##_list_iterator {									\
+typedef struct name##_iterator {									\
 	type *pval;											\
-} name##_list_iterator;											\
+} name##_iterator;											\
 													\
 /* list_init - initialize list.
  *
@@ -118,7 +118,7 @@ int name##_list_comp(name##_list *list1, name##_list *list2,						\
  *
  * Note: "Pointing at start" means the next call to list_get will give the first value in the list.
  */													\
-name##_list_iterator get_##name##_list_iterator(const name##_list *list);				\
+name##_iterator get_##name##_list_iterator(const name##_list *list);				\
 													\
 													\
 /* list_get - Get the next value in the list, indicated by iterator.
@@ -134,7 +134,7 @@ name##_list_iterator get_##name##_list_iterator(const name##_list *list);				\
  * 	After the end is reached it is legal to call this function again, unless the list is modified
  * 	it should return the same value.
  */													\
-short name##_list_get(name##_list_iterator *iterator, const name##_list *list, type *next);
+short name##_list_get(name##_iterator *iterator, const name##_list *list, type *next);
 
 
 /* -- Define the implementation -- */
@@ -196,15 +196,15 @@ type* name##_list_to_array(struct name##_list *list)							\
 	return (!tmp) ? list->buf : tmp;								\
 }													\
 													\
-struct name##_list_iterator get_##name##_list_iterator(const struct name##_list *list)			\
+struct name##_iterator get_##name##_list_iterator(const struct name##_list *list)			\
 {													\
-	struct name##_list_iterator iterator;								\
+	struct name##_iterator iterator;								\
 													\
 	iterator.pval =	list->buf;									\
 	return iterator;										\
 }													\
 													\
-short name##_list_get(struct name##_list_iterator *iterator, const struct name##_list *list, type *next)\
+short name##_list_get(struct name##_iterator *iterator, const struct name##_list *list, type *next)\
 {													\
 	if(iterator->pval >= list->p_buf)	/* If reached the end. */				\
 		return -1;										\
