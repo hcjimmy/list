@@ -33,7 +33,6 @@ short int_list_init_with(struct int_list *list, unsigned amount, ...)
 
 short copy_array_to_int_list(int *array, size_t array_length, int_list *new_list)
 {
-	int_list list;
 	int *end;
 
 	if(int_list_init(new_list))
@@ -119,8 +118,6 @@ bool int_list_contains(int_list *list, int value)
 
 bool test_int_list_to_array(int_list *list, int expected_array[], size_t array_length)
 {
-	int next;
-
 	if(int_list_comp_array(list, expected_array, array_length)) {
 		fprintf(stderr, "List is different from expected.\n"
 				"\tExpected list: ");
