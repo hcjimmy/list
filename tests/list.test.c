@@ -174,7 +174,10 @@ bool test_int_list_pop_index_no_preserve(int array[], size_t array_length, size_
 	int popped;
 	bool failed;
 
-	copy_array_to_int_list(array, array_length, &list);
+	if(copy_array_to_int_list(array, array_length, &list)) {
+		fprintf(stderr, "Memory allocation failed.\n");
+		return 1;
+	}
 
 	popped = int_list_pop_index_no_preserve(&list, removed_index);
 
@@ -188,6 +191,7 @@ bool test_int_list_pop_index_no_preserve(int array[], size_t array_length, size_
 		failed = true;
 	}
 
+	int_list_close(&list, NULL);
 	return failed;
 }
 
@@ -197,19 +201,24 @@ int int_list_to_array_tester()
 	int expected_array[] = { 0,1,2,3,4 };
 	int_list list[5];
 
+	size_t i = 0;
 	if(
 			int_list_init_with(list+0, 0)
-			|| int_list_init_with(list+1, 1, 	0,1)
-			|| int_list_init_with(list+2, 2, 	0,1,2)
-			|| int_list_init_with(list+3, 3, 	0,1,2,3)
-			|| int_list_init_with(list+4, 4, 	0,1,2,3,4)
+			|| int_list_init_with(list+1, ++i, 	0,1)
+			|| int_list_init_with(list+2, ++i, 	0,1,2)
+			|| int_list_init_with(list+3, ++i, 	0,1,2,3)
+			|| int_list_init_with(list+4, ++i, 	0,1,2,3,4)
 	) {
 		fprintf(stderr, "Memory allocation failed.\n");
+		do{
+			int_list_close(list+i, NULL);
+		} while(--i >= 0);
 		return -1;
 	}
 
 	for(size_t i = 0; i < 5; ++i) {
 		fails += test_int_list_to_array(list+i, expected_array, i);
+		int_list_close(list+i, NULL);
 	}
 
 	return fails;
