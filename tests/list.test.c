@@ -210,9 +210,8 @@ int int_list_to_array_tester()
 			|| int_list_init_with(list+4, ++i, 	0,1,2,3,4)
 	) {
 		fprintf(stderr, "Memory allocation failed.\n");
-		do{
+		while(--i >= 0)
 			int_list_close(list+i, NULL);
-		} while(--i >= 0);
 		return -1;
 	}
 
